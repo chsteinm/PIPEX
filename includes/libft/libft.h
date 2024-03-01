@@ -6,7 +6,7 @@
 /*   By: chrstein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 16:33:48 by chrstein          #+#    #+#             */
-/*   Updated: 2023/11/06 18:23:04 by chrstein         ###   ########.fr       */
+/*   Updated: 2024/02/15 20:58:43 by chrstein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 # include <unistd.h>
 # include <stddef.h>
 # include <stdarg.h>
+
+# define BASE16LOW "0123456789abcdef"
+# define BASE16UP "0123456789ABCDEF"
 
 typedef struct s_list
 {
@@ -80,11 +83,12 @@ void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 void	ft_free_strings(char **strs);
 char	**strsdup(char **strs, size_t size);
-int     ft_printf(const char *str, ...);
-int     print_str(va_list args);
-int     print_n_base10(va_list args, char c);
-char    *ft_utoa(unsigned int n);
-int     ft_putnbr_base(size_t nb, char *base, size_t base_len);
-int     print_p(va_list args);
+int		ft_printf(const char *str, ...);
+int		print_str(va_list args);
+int		print_n_base10(va_list args, char c);
+char	*ft_utoa(unsigned int n);
+int		ft_putnbr_base(size_t nb, char *base, size_t base_len);
+int		print_p(va_list args);
+void	ft_printstrs(char **strs);
 
 #endif

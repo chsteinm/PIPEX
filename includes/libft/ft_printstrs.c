@@ -1,36 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
+/*   ft_printstrs.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chrstein <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/06 17:22:58 by chrstein          #+#    #+#             */
-/*   Updated: 2024/02/06 17:23:00 by chrstein         ###   ########.fr       */
+/*   Created: 2024/02/16 03:45:40 by chrstein          #+#    #+#             */
+/*   Updated: 2024/02/16 03:46:19 by chrstein         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_BONUS_H
-# define GET_NEXT_LINE_BONUS_H
+#include "libft.h"
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
-# endif
-
-# include "./libft/libft.h"
-
-# include <unistd.h>
-# include <stdlib.h>
-
-typedef struct s_struct
+void	ft_printstrs(char **strs)
 {
-	char	buf[BUFFER_SIZE + 1];
-	char	*tmp;
-	char	*tmp_tmp;
-	char	*buf_ptr;
-	ssize_t	bytes_read;
-}	t_struct;
+	size_t	i;
 
-char	*get_next_line(int fd);
-
-#endif
+	i = -1;
+	while (strs[++i])
+		ft_printf("%s\n", strs[i]);
+}

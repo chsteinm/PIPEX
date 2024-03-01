@@ -14,8 +14,6 @@
 # define PIPEX_H
 
 # include "./libft/libft.h"
-# include "get_next_line_bonus.h"
-
 # include <stdlib.h>
 # include <unistd.h>
 # include <limits.h>
@@ -23,6 +21,17 @@
 # include <string.h>
 # include <errno.h>
 # include <fcntl.h>
+# include <sys/wait.h>
+
+typedef struct s_data
+{
+	int		fd_in;
+	int		fd_out;
+	int		fildes[2];
+	int		pid;
+	char	**args_in;
+	char	**args_out;
+}					t_data;
 
 
 
