@@ -22,7 +22,7 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 	if (ptr)
 	{
 		ptr->next = new;
-		new->prec = ptr;
+		new->prev = ptr;
 	}
 	else
 		*lst = new;

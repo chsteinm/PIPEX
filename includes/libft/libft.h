@@ -28,7 +28,7 @@ typedef struct s_list
 	char			*index_base;
 	int				len_index_base;
 	struct s_list	*next;
-	struct s_list	*prec;
+	struct s_list	*prev;
 	int				price;
 	int				place;
 	int				nearest_index_place;
