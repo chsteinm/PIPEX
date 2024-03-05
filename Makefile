@@ -1,6 +1,6 @@
 NAME = pipex
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-g3 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 PATH_SRCS = ./srcs/
 SRCS = main.c
 OBJ = $(addprefix $(BUILD_DIR)/,$(SRCS:.c=.o))
@@ -33,10 +33,6 @@ fclean: clean
 
 re: fclean
 	@make --no-print-directory
-
-visu:
-	@echo "replace ../../push_swap by ./push_swap\n"
-	~/Documents/push_swap_git/push_swap_visualizer/build/bin/visualizer
 
 FORCE:
 

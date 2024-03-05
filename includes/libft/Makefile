@@ -30,6 +30,7 @@ SRCS = 	ft_atol.c \
 		ft_strmapi.c \
 		ft_strncmp.c \
 		ft_strnstr.c \
+		ft_rstrnstr.c \
 		ft_strrchr.c \
 		ft_strtrim.c \
 		ft_substr.c \
@@ -41,7 +42,8 @@ SRCS = 	ft_atol.c \
 		ft_printf.c \
 		ft_print_conversions.c \
 		ft_utoa.c \
-		ft_putnbr_base.c
+		ft_putnbr_base.c \
+		ft_printstrs.c
 OBJ = $(addprefix $(BUILD_DIR)/,$(SRCS:.c=.o))
 SRCS_BONUS =	ft_lstadd_back_bonus.c \
 				ft_lstadd_front_bonus.c \
@@ -62,10 +64,10 @@ $(NAME): $(OBJ) Makefile
 
 bonus: $(NAME) $(OBJ_BONUS)
 	@if [ "$$(find $(OBJ_BONUS) -newer "$(NAME)" -print -quit)" ]; then \
-		ar rcs $(NAME) $^; \
-	# else \
-	# 	echo "libft make: Nothing to be done for 'bonus'."; \
-	fi
+		ar rcs $(NAME) $^; fi
+#	  else \
+	  	echo "libft make: Nothing to be done for 'bonus'."; \
+	 fi
 
 $(BUILD_DIR)/%.o: %.c Makefile
 	@mkdir -p $(BUILD_DIR)
