@@ -36,6 +36,8 @@ int close_n_exit(t_data *data, int ret)
 		close(data->fd_out);
 	close(data->fildes[0]);
 	close(data->fildes[1]);
+	close(1);
+	close(0);
 	ft_free_strings(data->args_in);
 	ft_free_strings(data->args_out);
 	ft_free_strings(data->path);

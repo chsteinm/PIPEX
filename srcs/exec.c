@@ -19,8 +19,8 @@ char	**ret_args(char **args, char *argv_str, char **path)
 	char	*tmp;
 
 	args = ft_split(argv_str, ' ');
-	if (!args)
-		return (NULL);
+	if (!args || !*args)
+		return (free(args), NULL);
 	good_path = args[0];
 	tmp = NULL;
 	while (access(good_path, X_OK) && *path && !ft_strnstr(*args, "/", INT_MAX))
