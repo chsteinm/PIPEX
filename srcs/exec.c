@@ -23,7 +23,7 @@ char	**ret_args(char **args, char *argv_str, char **path)
 		return (NULL);
 	good_path = args[0];
 	tmp = NULL;
-	while (access(good_path, X_OK) && *path)
+	while (access(good_path, X_OK) && *path && !ft_strnstr(*args, "/", INT_MAX))
 	{
 		free(tmp);
 		good_path = join_3(*path++, "/", args[0]);
@@ -31,12 +31,12 @@ char	**ret_args(char **args, char *argv_str, char **path)
 			return (NULL);
 		tmp = good_path;
 	}
-	if (*path)
+	if (*path && tmp)
 	{
 		free(args[0]);
 		args[0] = good_path;
 	}
-	else
+	else if (tmp)
 		free(good_path);
 	return (args);
 }
