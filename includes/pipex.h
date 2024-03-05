@@ -31,10 +31,13 @@ typedef struct s_data
 	int		fd_out;
 	int		fildes[2];
 	int		pid;
+	int		pid2;
 	char	**args_in;
 	char	**args_out;
 }					t_data;
 
-
+int close_n_exit(t_data *data, int ret);
+int	exec_first(t_data *data, char **env);
+int	exec_second(t_data *data, char **env);
 
 #endif
