@@ -34,6 +34,8 @@ typedef struct s_data
 	int		pid2;
 	char	**args_in;
 	char	**args_out;
+	char	**argv_ptr;
+	char	**path;
 }					t_data;
 
 int close_n_exit(t_data *data, int ret);

@@ -36,7 +36,22 @@ int close_n_exit(t_data *data, int ret)
 		close(data->fd_out);
 	close(data->fildes[0]);
 	close(data->fildes[1]);
+	ft_free_strings(data->args_in);
+	ft_free_strings(data->args_out);
+	ft_free_strings(data->path);
 	return (ret);
+}
+
+char	**ret_path(char **env)
+{
+	char	*line_ptr;
+	size_t	i;
+
+	i = -1;
+	line_ptr = NULL;
+	while (!line_ptr && env[++i])
+		line_ptr = ft_strnstr(env[i], "PATH=", 6);
+	return (ft_split(line_ptr, ':'));
 }
 
 int	main(int argc, char **argv, char **env)
@@ -44,7 +59,12 @@ int	main(int argc, char **argv, char **env)
 	t_data	data;
 
 	check_argc(argc, argv);
+	ft_bzero((char *)&data, sizeof(t_data));
 	open_files(&data, argv);
+	data.argv_ptr = argv;
+	data.path = ret_path(env);
+	if (!data.path)
+		return (ft_printf("Malloc failed\n"), close_n_exit(&data, 1));
 	if (pipe(data.fildes) == -1)
 		return (perror("pipe"), close_n_exit(&data, 1));
 	data.pid = fork();
