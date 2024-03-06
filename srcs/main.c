@@ -12,6 +12,11 @@ void	check_argc(int argc, char **argv)
 		ft_printf("%s have not all parameters\n", argv[0]);
 		exit(1);
 	}
+	if (argc > 5)
+	{
+		ft_printf("%s have too much parameters\n", argv[0]);
+		exit(1);
+	}
 }
 
 void	open_files(t_data *data, char **argv)
