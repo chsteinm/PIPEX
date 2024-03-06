@@ -73,7 +73,8 @@ int	exec_first(t_data *data, char **env)
 		return (close_n_exit(data, 1));
 	if (data->fd_in != -1)
 	{
-		close(data->fd_out);
+		if (data->fd_out != -1)
+			close(data->fd_out);
 		close(data->fildes[0]);
 		if (dup2(data->fd_in, STDIN_FILENO) == -1)
 			return (perror("dup2"), close_n_exit(data, 1));
