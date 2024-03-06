@@ -28,7 +28,7 @@ void	open_files(t_data *data, char **argv)
 	}
 }
 
-int close_n_exit(t_data *data, int ret)
+int	close_n_exit(t_data *data, int ret)
 {
 	if (data->fd_in != -1)
 		close(data->fd_in);
@@ -44,15 +44,23 @@ int close_n_exit(t_data *data, int ret)
 	return (ret);
 }
 
-char	**ret_path(char **env)
+char	**ret_path(int *is_env, int *is_path, char **env)
 {
 	char	*line_ptr;
 	size_t	i;
 
+	if (env && *env)
+		*is_env = 1;
+	else
+		return (NULL);
 	i = -1;
 	line_ptr = NULL;
 	while (!line_ptr && env[++i])
 		line_ptr = ft_strnstr(env[i], "PATH=", 6);
+	if (!line_ptr)
+		return (NULL);
+	else
+		*is_path = 1;
 	return (ft_split(line_ptr, ':'));
 }
 
@@ -64,18 +72,18 @@ int	main(int argc, char **argv, char **env)
 	ft_bzero((char *)&data, sizeof(t_data));
 	open_files(&data, argv);
 	data.argv_ptr = argv;
-	data.path = ret_path(env);
-	if (!data.path)
+	data.path = ret_path(&data.is_env, &data.is_path, env);
+	if (!data.path && data.is_env && data.is_path)
 		return (ft_printf("Malloc failed\n"), close_n_exit(&data, 1));
 	if (pipe(data.fildes) == -1)
 		return (perror("pipe"), close_n_exit(&data, 1));
 	data.pid = fork();
-	if (data.pid == - 1)
+	if (data.pid == -1)
 		return (perror("fork"), close_n_exit(&data, 1));
 	if (data.pid == 0)
 		return (exec_first(&data, env));
 	data.pid2 = fork();
-	if (data.pid2 == - 1)
+	if (data.pid2 == -1)
 		return (perror("fork"), close_n_exit(&data, 2));
 	if (data.pid2 == 0)
 		return (exec_second(&data, env));

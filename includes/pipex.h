@@ -24,7 +24,6 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 
-
 typedef struct s_data
 {
 	int		fd_in;
@@ -36,9 +35,11 @@ typedef struct s_data
 	char	**args_out;
 	char	**argv_ptr;
 	char	**path;
+	int		is_env;
+	int		is_path;
 }					t_data;
 
-int close_n_exit(t_data *data, int ret);
+int	close_n_exit(t_data *data, int ret);
 int	exec_first(t_data *data, char **env);
 int	exec_second(t_data *data, char **env);
 
