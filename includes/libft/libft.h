@@ -85,11 +85,16 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 void	ft_free_strings(char **strs);
 char	**strsdup(char **strs, size_t size);
 int		ft_printf(const char *str, ...);
+int		ft_dprintf(int fd, const char *str, ...);
 int		print_str(va_list args);
+int		print_str_fd(va_list args, int fd);
 int		print_n_base10(va_list args, char c);
+int		print_n_base10_fd(va_list args, char c, int fd);
 char	*ft_utoa(unsigned int n);
 int		ft_putnbr_base(size_t nb, char *base, size_t base_len);
+int		ft_putnbr_base_fd(size_t nb, char *base, size_t base_len, int fd);
 int		print_p(va_list args);
+int		print_p_fd(va_list args, int fd);
 void	ft_printstrs(char **strs);
 
 #endif

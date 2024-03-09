@@ -29,8 +29,10 @@ typedef struct s_data
 	int		fd_in;
 	int		fd_out;
 	int		fildes[2];
-	int		pid;
-	int		pid2;
+	pid_t	pid;
+	pid_t	pid2;
+	int		status;
+	int		status_last;
 	char	**args_in;
 	char	**args_out;
 	char	**argv_ptr;

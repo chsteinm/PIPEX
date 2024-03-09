@@ -4,18 +4,18 @@ void	check_argc(int argc, char **argv)
 {
 	if (argc == 1)
 	{
-		ft_printf("%s have no parameters\n", argv[0]);
-		exit(1);
+		ft_dprintf(STDERR_FILENO, "%s have no parameters\n", argv[0]);
+		exit(EXIT_FAILURE);
 	}
 	if (argc < 5)
 	{
-		ft_printf("%s have not all parameters\n", argv[0]);
-		exit(1);
+		ft_dprintf(STDERR_FILENO, "%s have not all parameters\n", argv[0]);
+		exit(EXIT_FAILURE);
 	}
 	if (argc > 5)
 	{
-		ft_printf("%s have too much parameters\n", argv[0]);
-		exit(1);
+		ft_dprintf(STDERR_FILENO, "%s have too much parameters\n", argv[0]);
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -24,12 +24,12 @@ void	open_files(t_data *data, char **argv)
 	data->fd_in = open(argv[1], O_RDONLY);
 	if (data->fd_in == -1)
 	{
-		ft_printf("Open : %s: %s\n", argv[1], strerror(errno));
+		ft_dprintf(STDERR_FILENO, "%s: %s\n", argv[1], strerror(errno));
 	}
 	data->fd_out = open(argv[4], O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (data->fd_out == -1)
 	{
-		ft_printf("Open : %s: %s\n", argv[4], strerror(errno));
+		ft_dprintf(STDERR_FILENO, "%s: %s\n", argv[4], strerror(errno));
 	}
 }
 
@@ -79,7 +79,7 @@ int	main(int argc, char **argv, char **env)
 	data.argv_ptr = argv;
 	data.path = ret_path(&data.is_env, &data.is_path, env);
 	if (!data.path && data.is_env && data.is_path)
-		return (ft_printf("Malloc failed\n"), close_n_exit(&data, 1));
+		return (perror("malloc"), close_n_exit(&data, 1));
 	if (pipe(data.fildes) == -1)
 		return (perror("pipe"), close_n_exit(&data, 1));
 	data.pid = fork();
@@ -93,7 +93,7 @@ int	main(int argc, char **argv, char **env)
 	if (data.pid2 == 0)
 		return (exec_second(&data, env));
 	close_n_exit(&data, 0);
-	wait(&data.pid);
-	wait(&data.pid2);
-	return (0);
+	waitpid(data.pid, &data.status, 0);
+	waitpid(data.pid2, &data.status_last, 0);
+	return (WEXITSTATUS(data.status_last));
 }

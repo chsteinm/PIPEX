@@ -46,24 +46,26 @@ int	exec_second(t_data *data, char **env)
 {
 	data->args_out = ret_args(data->args_out, data->argv_ptr[3], data->path);
 	if (!data->args_out)
-		return (close_n_exit(data, 1));
+		return (perror("malloc"), close_n_exit(data, 1));
+	if (access(*data->args_out, X_OK))
+		return (perror(*data->args_out), close_n_exit(data, 127));
 	if (data->fd_out != -1)
 	{
 		if (data->fd_in != -1)
 			close(data->fd_in);
-		close(data->fildes[1]);
-		if (dup2(data->fildes[0], STDIN_FILENO))
+		if (dup2(data->fildes[0], STDIN_FILENO) == -1)
 			return (perror("dup2"), close_n_exit(data, 1));
-		close(data->fildes[0]);
 		if (dup2(data->fd_out, STDOUT_FILENO) == -1)
 			return (perror("dup2"), close_n_exit(data, 1));
+		close(data->fildes[1]);
+		close(data->fildes[0]);
 		close(data->fd_out);
 		execve(data->args_out[0], data->args_out, env);
 		perror(data->args_out[0]);
 		return (close_n_exit(data, 1));
 	}
 	else
-		return (close_n_exit(data, 0));
+		return (close_n_exit(data, 1));
 }
 
 int	exec_first(t_data *data, char **env)
@@ -75,12 +77,12 @@ int	exec_first(t_data *data, char **env)
 	{
 		if (data->fd_out != -1)
 			close(data->fd_out);
-		close(data->fildes[0]);
 		if (dup2(data->fd_in, STDIN_FILENO) == -1)
 			return (perror("dup2"), close_n_exit(data, 1));
-		close(data->fd_in);
 		if (dup2(data->fildes[1], STDOUT_FILENO) == -1)
 			return (perror("dup2"), close_n_exit(data, 1));
+		close(data->fd_in);
+		close(data->fildes[0]);
 		close(data->fildes[1]);
 		execve(data->args_in[0], data->args_in, env);
 		perror(data->args_in[0]);

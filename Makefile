@@ -1,9 +1,12 @@
 NAME = pipex
+NAME_BONUS = pipex_bonus
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3 #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 PATH_SRCS = ./srcs/
 SRCS = main.c exec.c
+SRCS_BONUS = main_bonus.c #exec.c
 OBJ = $(addprefix $(BUILD_DIR)/,$(SRCS:.c=.o))
+OBJ_BONUS = $(addprefix $(BUILD_DIR)/,$(SRCS_BONUS:.c=.o))
 BUILD_DIR = .build
 LIBFT = ./includes/libft/libft.a
 
@@ -11,6 +14,13 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $@
+	@echo "\npipex is ready for use!\n"
+	@echo 'tape "./pipex file1 cmd1 cmd2 file2"'"\n"
+
+bonus: $(NAME_BONUS)
+
+$(NAME_BONUS): $(OBJ_BONUS)
+	@$(CC) $(CFLAGS) $(OBJ_BONUS) $(LIBFT) -o $@
 	@echo "\npipex is ready for use!\n"
 	@echo 'tape "./pipex file1 cmd1 cmd2 file2"'"\n"
 

@@ -40,9 +40,12 @@ SRCS = 	ft_atol.c \
 		ft_free_strings.c \
 		ft_strsdup.c \
 		ft_printf.c \
+		ft_dprintf.c \
 		ft_print_conversions.c \
+		ft_dprint_conversions.c \
 		ft_utoa.c \
 		ft_putnbr_base.c \
+		ft_putnbr_base_fd.c \
 		ft_printstrs.c
 OBJ = $(addprefix $(BUILD_DIR)/,$(SRCS:.c=.o))
 SRCS_BONUS =	ft_lstadd_back_bonus.c \
