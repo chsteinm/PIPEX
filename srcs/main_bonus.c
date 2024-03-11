@@ -19,12 +19,13 @@ void	close_fds(t_data *data)
 
 void	close_free_exit(t_data *data, int ret)
 {
-	close_fds(data);
+	if (ret)
+		close_fds(data);
 	ft_free_strings(data->args);
 	ft_free_strings(data->path);
 	free(data->fildes);
 	free(data->pid);
-	if (ret)
+	if (ret != EXIT_SUCCESS)
 		exit(ret);
 }
 
@@ -42,15 +43,9 @@ void	check_argc(t_data *data, int argc, char **argv)
 		ft_dprintf(STDERR_FILENO, "%s have not all parameters\n", argv[0]);
 		close_free_exit(data, EXIT_FAILURE);
 	}
-	if (!((argc + data->is_here_doc) % 2))
-	{
-		ft_dprintf(STDERR_FILENO, "%s \
-		have not a right amount of parameters\n", argv[0]);
-		close_free_exit(data, EXIT_FAILURE);
-	}
 }
 
-void	open_files(t_data *data, char **argv)
+void	open_files(t_data *data, int argc, char **argv)
 {
 	data->fd_in = open(argv[1 + data->is_here_doc], O_RDONLY);
 	if (data->fd_in == -1)
@@ -58,7 +53,7 @@ void	open_files(t_data *data, char **argv)
 		ft_dprintf(STDERR_FILENO, "%s: %s\n", argv[1 + data->is_here_doc], \
 		strerror(errno));
 	}
-	data->fd_out = open(argv[4 + data->is_here_doc], \
+	data->fd_out = open(argv[argc - 1], \
 	O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (data->fd_out == -1)
 	{
@@ -134,6 +129,8 @@ void	set_fork(t_data *data)
 			perror("fork");
 			close_free_exit(data, EXIT_FAILURE);
 		}
+		if (!data->pid[i])
+			break ;
 	}
 }
 
@@ -144,7 +141,7 @@ int	main(int argc, char **argv, char **env)
 	(void)env;
 	ft_bzero((char *)&data, sizeof(t_data));
 	check_argc(&data, argc, argv);
-	open_files(&data, argv);
+	open_files(&data, argc, argv);
 	data.argv_ptr = argv + 1 + data.is_here_doc;
 	data.env_ptr = env;
 	data.path = ret_path(&data.is_env, &data.is_path, env);
@@ -156,9 +153,13 @@ int	main(int argc, char **argv, char **env)
 	set_fildes(&data, argc);
 	set_fork(&data);
 	while (data.i < data.nb_cmd)
-		if (data.pid[data.i] == 0 && (data->i++ || data->fd_in != -1))
+		if (data.pid[data.i++] == 0 && (data.i - 1 || data.fd_in != -1) && \
+		(data.i < data.nb_cmd || data.fd_out != -1))
 			exec_cmd(&data);
-	// return (WEXITSTATUS(data.status_last));
-	close_free_exit(&data, EXIT_SUCCESS);
+	close_fds(&data);
+	data.i = -1;
+	while (++data.i < data.nb_cmd)
+		waitpid(data.pid[data.i], &data.status, 0);
+	close_free_exit(&data, WEXITSTATUS(data.status));
 	return (0);
 }

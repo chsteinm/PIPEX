@@ -12,7 +12,7 @@
 # include <sys/wait.h>
 # include <sys/stat.h>
 
-# define ERR_CNF "%s: command not found"
+# define ERR_CNF "%s: command not found\n"
 
 typedef struct s_data
 {
@@ -21,7 +21,7 @@ typedef struct s_data
 	int		nb_cmd;
 	int		**fildes;
 	pid_t	*pid;
-	int		*status;
+	int		status;
 	char	**args;
 	char	**argv_ptr;
 	char	**env_ptr;
