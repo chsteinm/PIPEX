@@ -1,4 +1,4 @@
-NAME = pipexo
+NAME = pipex
 NAME_BONUS = pipex_bonus
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
