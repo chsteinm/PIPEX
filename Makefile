@@ -1,10 +1,10 @@
-NAME = pipex
-NAME_BONUS = pipex
+NAME = pipexo
+NAME_BONUS = pipex_bonus
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 PATH_SRCS = ./srcs/
 SRCS = main.c exec.c
-SRCS_BONUS = main_bonus.c exec_bonus.c
+SRCS_BONUS = main_bonus.c exec_bonus.c set_bonus.c get_next_line_bonus.c here_doc_manage_bonus.c
 OBJ = $(addprefix $(BUILD_DIR)/,$(SRCS:.c=.o))
 OBJ_BONUS = $(addprefix $(BUILD_DIR)/,$(SRCS_BONUS:.c=.o))
 BUILD_DIR = .build
@@ -22,7 +22,7 @@ bonus: $(NAME_BONUS)
 $(NAME_BONUS): $(OBJ_BONUS)
 	@$(CC) $(CFLAGS) $(OBJ_BONUS) $(LIBFT) -o $@
 	@echo "\npipex is ready for use!\n"
-	@echo 'tape "./pipex file1 cmd1 ... cmdn file2"'"\n"
+	@echo 'tape "./pipex_bonus file1 cmd1 ... cmdn file2"'"\n"
 
 $(BUILD_DIR)/%.o: $(PATH_SRCS)%.c Makefile $(LIBFT)
 	@mkdir -p $(BUILD_DIR)

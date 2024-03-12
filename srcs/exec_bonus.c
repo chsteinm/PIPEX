@@ -67,5 +67,6 @@ void	exec_cmd(t_data *data)
 	close_fds(data);
 	execve(*data->args, data->args, data->env_ptr);
 	perror(data->args[0]);
-	close_free_exit(data, EXIT_FAILURE);
+	close_free_exit(data, 0);
+	exit(EXIT_FAILURE);
 }
