@@ -9,11 +9,9 @@ void	write_until_lim(t_data *data)
 		line = get_next_line(data->fd_in);
 		if (line)
 		{
-			if (!ft_strncmp(data->limiter, line, ft_strlen(line) - 1))
-			{
-				free(line);
-				return ;
-			}
+			if (*line != '\n')
+				if (!ft_strncmp(data->limiter, line, ft_strlen(line) - 1))
+					return (free(line));
 			if (write(data->fildes_hd[1], line, ft_strlen(line)) == -1)
 			{
 				perror("write");
